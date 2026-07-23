@@ -1,7 +1,7 @@
 name: ZCode Tracker
 
 # Detects new ZCode Windows x64 installer releases and uploads them as build
-# artifacts, classified by version. See zcode-tracker/README.md for details.
+# artifacts, classified by version. See README.md (repo root) for details.
 
 on:
   schedule:
@@ -65,12 +65,23 @@ jobs:
           if-no-files-found: error
           retention-days: 90
 
-      - name: Commit updated state & catalog
-        if: steps.zcode.outputs.changed == 'true'
+      # Refresh the auto-managed README sections on EVERY run, so the
+      # "Latest version" badge + history table always reflect the live site
+      # and the catalog. Runs even when no new version was downloaded.
+      - name: Update README (auto-managed sections)
+        working-directory: zcode-tracker
+        run: python update_readme.py
+
+      # Commit state.json / catalog.json / README.md together. The action
+      # only commits when there is an actual diff (no empty commits).
+      - name: Commit updated state, catalog & README
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore(zcode): track ZCode ${{ steps.zcode.outputs.version }}"
-          file_pattern: "zcode-tracker/state.json zcode-tracker/catalog.json"
+          commit_message: >-
+            ${{ steps.zcode.outputs.changed == 'true'
+              && format('chore(zcode): track ZCode {0}', steps.zcode.outputs.version)
+              || 'chore(zcode): refresh README (no new version)' }}
+          file_pattern: "zcode-tracker/state.json zcode-tracker/catalog.json README.md"
           commit_user_name: "github-actions[bot]"
           commit_user_email: "41898282+github-actions[bot]@users.noreply.github.com"
 
