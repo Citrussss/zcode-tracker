@@ -1,3 +1,16 @@
 {
-  "releases": {}
+  "releases": {
+    "3.4.2": {
+      "version": "3.4.2",
+      "platform": "windows-x64",
+      "url": "https://cdn-zcode.z.ai/zcode/electron/releases/3.4.2/windows-x64/ZCode-3.4.2-win-x64.exe",
+      "url_format": "new",
+      "sha512": "Eomyh6NblmJInFEb6+XKs45OxXoGTJOxxRJHEqBp7OpGuSwXH7gjHGENW7K5uxCjNqwLCZmxGVnB5hvnkjhbSA==",
+      "size": 127602832,
+      "release_date": "2026-07-21T11:21:00.075Z",
+      "detected_at": "2026-07-23T14:55:19Z",
+      "filename": "ZCode-3.4.2-win-x64.exe",
+      "artifact_dir": "downloads"
+    }
+  }
 }
