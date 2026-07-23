@@ -40,17 +40,21 @@ jobs:
       - name: Detect & download ZCode release
         id: zcode
         working-directory: zcode-tracker
+        # Exit codes: 0 done (downloaded), 2 no change, 3 check-only-new-available,
+        # 1 hard error. Only code 1 should fail the step; 0/2/3 are all success.
+        # Use `|| true` to bypass the runner's `set -e` so we can read $?.
         run: |
-          python check_zcode.py ${{ inputs.force == true && '--force' || '' }}
+          python check_zcode.py ${{ inputs.force == true && '--force' || '' }} || rc=$? || rc=0
+          case "${rc:-0}" in
+            0|2|3) exit 0 ;;
+            *) exit "${rc}" ;;
+          esac
 
-      # The script writes:
+      # The script writes (via $GITHUB_OUTPUT):
       #   steps.zcode.outputs.changed  -> 'true' | 'false'
       #   steps.zcode.outputs.version  -> e.g. '3.4.2'
       #   steps.zcode.outputs.filename -> e.g. 'ZCode-3.4.2-win-x64.exe'
       #   steps.zcode.outputs.artifact_path -> 'downloads'
-      # Exit codes: 0 done (downloaded), 2 no change, 3 check-only-new.
-      # In CI we never use --check-only, so 3 should not occur, but we treat
-      # 0 and 3 as "something to publish" defensively.
 
       - name: Upload installer as artifact
         if: steps.zcode.outputs.changed == 'true'
