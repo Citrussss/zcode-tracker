@@ -103,6 +103,15 @@ python update_readme.py
 
 ---
 
+## Other deployments
+
+- **Synology NAS (DSM 7.x)** — run the same script on a daily **Task Scheduler**
+  job and archive installers to a local folder permanently (independent of the
+  90-day artifact retention). See
+  [`docs/synology-setup.md`](docs/synology-setup.md) for step-by-step.
+
+---
+
 ## Maintenance
 
 - **"no win-x64 version URLs found"** — the download page layout changed;

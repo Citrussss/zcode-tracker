@@ -48,7 +48,9 @@ URL_PATTERNS = [
     re.compile(r"releases/(\d+\.\d+\.\d+)/ZCode-\d+\.\d+\.\d+-win-x64\.exe"),
 ]
 
-# Where state.json / catalog.json live (next to this script).
+# Where state.json / catalog.json live (next to this script by default).
+# Overridable via --state-file / --catalog-file (e.g. for NAS scheduled tasks
+# that keep state in a fixed location outside the repo).
 HERE = os.path.dirname(os.path.abspath(__file__))
 STATE_FILE = os.path.join(HERE, "state.json")
 CATALOG_FILE = os.path.join(HERE, "catalog.json")
@@ -279,16 +281,30 @@ def load_catalog() -> dict:
 
 
 def main(argv: list[str]) -> int:
+    # module-level globals so the override is visible to load_state/load_catalog
+    global STATE_FILE, CATALOG_FILE
+
     parser = argparse.ArgumentParser(description="Track ZCode Windows x64 releases.")
     parser.add_argument("--check-only", action="store_true",
                         help="only detect & compare; do not download")
     parser.add_argument("--download-dir", default="downloads",
                         help="directory for downloaded installers (default: downloads)")
+    parser.add_argument("--state-file", default=None,
+                        help="path to state.json (default: next to this script). "
+                             "Use a fixed absolute path when running outside the repo, "
+                             "e.g. on a NAS scheduled task.")
+    parser.add_argument("--catalog-file", default=None,
+                        help="path to catalog.json (default: next to this script)")
     parser.add_argument("--force", action="store_true",
                         help="download even if state is already current")
     parser.add_argument("--page-url", default=PAGE_URL,
                         help=argparse.SUPPRESS)  # override for testing
     args = parser.parse_args(argv)
+
+    if args.state_file:
+        STATE_FILE = os.path.abspath(args.state_file)
+    if args.catalog_file:
+        CATALOG_FILE = os.path.abspath(args.catalog_file)
 
     try:
         versions = fetch_page_versions() if args.page_url == PAGE_URL else _fetch_versions_from(args.page_url)
