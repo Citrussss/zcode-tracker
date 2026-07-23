@@ -1,0 +1,10 @@
+# Downloaded installers (uploaded as Actions artifacts instead)
+downloads/
+
+# Python caches
+__pycache__/
+*.pyc
+
+# Local scratch
+*.tmp
+*.part

@@ -1,0 +1,84 @@
+name: ZCode Tracker
+
+# Detects new ZCode Windows x64 installer releases and uploads them as build
+# artifacts, classified by version. See zcode-tracker/README.md for details.
+
+on:
+  schedule:
+    # Every day at 02:00 UTC (~10:00 Beijing time)
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Re-download current version even if not new"
+        required: false
+        type: boolean
+        default: false
+
+# Prevent overlapping runs from stomping on the state file.
+concurrency:
+  group: zcode-tracker
+  cancel-in-progress: false
+
+permissions:
+  contents: write   # needed to commit updated state.json / catalog.json back
+
+jobs:
+  check-and-download:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Detect & download ZCode release
+        id: zcode
+        working-directory: zcode-tracker
+        run: |
+          python check_zcode.py ${{ inputs.force == true && '--force' || '' }}
+
+      # The script writes:
+      #   steps.zcode.outputs.changed  -> 'true' | 'false'
+      #   steps.zcode.outputs.version  -> e.g. '3.4.2'
+      #   steps.zcode.outputs.filename -> e.g. 'ZCode-3.4.2-win-x64.exe'
+      #   steps.zcode.outputs.artifact_path -> 'downloads'
+      # Exit codes: 0 done (downloaded), 2 no change, 3 check-only-new.
+      # In CI we never use --check-only, so 3 should not occur, but we treat
+      # 0 and 3 as "something to publish" defensively.
+
+      - name: Upload installer as artifact
+        if: steps.zcode.outputs.changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZCode-${{ steps.zcode.outputs.version }}-win-x64
+          path: zcode-tracker/${{ steps.zcode.outputs.artifact_path }}/${{ steps.zcode.outputs.filename }}
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Commit updated state & catalog
+        if: steps.zcode.outputs.changed == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(zcode): track ZCode ${{ steps.zcode.outputs.version }}"
+          file_pattern: "zcode-tracker/state.json zcode-tracker/catalog.json"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Summary (no change)
+        if: steps.zcode.outputs.changed != 'true'
+        run: |
+          echo "### ZCode Tracker — no new version" >> $GITHUB_STEP_SUMMARY
+          echo "Last seen: ${{ steps.zcode.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Summary (new version)
+        if: steps.zcode.outputs.changed == 'true'
+        run: |
+          echo "### ZCode Tracker — new version!" >> $GITHUB_STEP_SUMMARY
+          echo "Downloaded & verified: **ZCode ${{ steps.zcode.outputs.version }}** (win-x64)" >> $GITHUB_STEP_SUMMARY
+          echo "Uploaded as artifact: \`ZCode-${{ steps.zcode.outputs.version }}-win-x64\`" >> $GITHUB_STEP_SUMMARY
