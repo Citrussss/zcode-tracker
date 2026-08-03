@@ -35,6 +35,18 @@
       "detected_at": "2026-07-28T05:11:00Z",
       "filename": "ZCode-3.5.3-win-x64.exe",
       "artifact_dir": "downloads"
+    },
+    "3.6.5": {
+      "version": "3.6.5",
+      "platform": "windows-x64",
+      "url": "https://cdn-zcode.z.ai/zcode/electron/releases/3.6.5/windows-x64/ZCode-3.6.5-win-x64.exe",
+      "url_format": "new",
+      "sha512": "2HX6ZOaD07zdXYM04blx0ETI24KiYZclWQyJ/aqUioTvFeRJCWLg5oQPOvIScrCu0YuCFDhLfI4T3cOQvSWNCw==",
+      "size": 147353032,
+      "release_date": "2026-07-31T13:02:56.389Z",
+      "detected_at": "2026-08-03T05:37:56Z",
+      "filename": "ZCode-3.6.5-win-x64.exe",
+      "artifact_dir": "downloads"
     }
   }
 }
