@@ -83,6 +83,18 @@
       "detected_at": "2026-08-15T02:47:20Z",
       "filename": "ZCode-3.7.7-win-x64.exe",
       "artifact_dir": "downloads"
+    },
+    "3.8.1": {
+      "version": "3.8.1",
+      "platform": "windows-x64",
+      "url": "https://cdn-zcode.z.ai/zcode/electron/releases/3.8.1/windows-x64/ZCode-3.8.1-win-x64.exe",
+      "url_format": "new",
+      "sha512": "fscdUqkqorst3NpiJeWBB2OUEuzXVwWjTHpwXAeIMwOO9jJZbSZTNKzWijPucz+2TK1qIoFajZVRW/lZ6qRHPA==",
+      "size": 147566712,
+      "release_date": "2026-08-18T14:57:15.117Z",
+      "detected_at": "2026-08-21T02:58:03Z",
+      "filename": "ZCode-3.8.1-win-x64.exe",
+      "artifact_dir": "downloads"
     }
   }
 }
