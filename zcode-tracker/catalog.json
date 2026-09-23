@@ -191,6 +191,18 @@
       "detected_at": "2026-09-21T07:32:52Z",
       "filename": "ZCode-3.14.1-win-x64.exe",
       "artifact_dir": "downloads"
+    },
+    "3.14.3": {
+      "version": "3.14.3",
+      "platform": "windows-x64",
+      "url": "https://cdn-zcode.z.ai/zcode/electron/releases/3.14.3/windows-x64/ZCode-3.14.3-win-x64.exe",
+      "url_format": "new",
+      "sha512": "5iy1TqLGdlgkH6/XheeFFuj/MPm8xdIqS4qtE7hwb+rLMAbCZ+E5iTaL6Q8iNc2hSEMk4Pd77SjIJDilr3FoHQ==",
+      "size": 178473080,
+      "release_date": "2026-09-22T03:21:06.491Z",
+      "detected_at": "2026-09-23T07:14:00Z",
+      "filename": "ZCode-3.14.3-win-x64.exe",
+      "artifact_dir": "downloads"
     }
   }
 }
