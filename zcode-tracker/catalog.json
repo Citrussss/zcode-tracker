@@ -287,6 +287,18 @@
       "detected_at": "2026-11-03T08:56:38Z",
       "filename": "ZCode-3.17.2-win-x64.exe",
       "artifact_dir": "downloads"
+    },
+    "3.18.2": {
+      "version": "3.18.2",
+      "platform": "windows-x64",
+      "url": "https://cdn-zcode.z.ai/zcode/electron/releases/3.18.2/windows-x64/ZCode-3.18.2-win-x64.exe",
+      "url_format": "new",
+      "sha512": "F5tYcDkeTx48iWi7zu2iAWJ30Il4Nky5akp6DtBvsdad35V7fd7Yd/tRU/her9oqRwijzT/LkzZ4SoyhvFkoDQ==",
+      "size": 237673864,
+      "release_date": "2026-11-12T10:38:51.114Z",
+      "detected_at": "2026-11-13T09:00:28Z",
+      "filename": "ZCode-3.18.2-win-x64.exe",
+      "artifact_dir": "downloads"
     }
   }
 }
