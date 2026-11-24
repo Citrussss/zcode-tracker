@@ -311,6 +311,18 @@
       "detected_at": "2026-11-22T09:15:17Z",
       "filename": "ZCode-3.19.1-win-x64.exe",
       "artifact_dir": "downloads"
+    },
+    "4.0.0": {
+      "version": "4.0.0",
+      "platform": "windows-x64",
+      "url": "https://cdn-zcode.z.ai/zcode/electron/releases/4.0.0/windows-x64/ZCode-4.0.0-win-x64.exe",
+      "url_format": "new",
+      "sha512": "1dlpycr3bKAhCN1jxJRv4Ith1NahmhpEkInR5zls3YFcjARwOgBZ4sA87X2lEaY5VhgSswETGzu7p6dT3fbSYA==",
+      "size": 238009216,
+      "release_date": "2026-11-22T11:54:47.615Z",
+      "detected_at": "2026-11-24T11:56:29Z",
+      "filename": "ZCode-4.0.0-win-x64.exe",
+      "artifact_dir": "downloads"
     }
   }
 }
